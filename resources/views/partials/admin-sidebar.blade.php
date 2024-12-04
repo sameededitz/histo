@@ -19,6 +19,12 @@
             </li>
             <li class="sidebar-menu-group-title">Application</li>
             <li>
+                <a href="{{ route('all-links') }}">
+                    <iconify-icon icon="ri:link" class="menu-icon"></iconify-icon>
+                    <span>Links</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('all-users') }}">
                     <iconify-icon icon="ri:user-line" class="menu-icon"></iconify-icon>
                     <span>Manage Users</span>

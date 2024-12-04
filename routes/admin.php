@@ -1,11 +1,18 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OptionController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'verifyRole:admin']], function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin-home');
+
+    Route::get('/links', [LinkController::class, 'links'])->name('all-links');
+
+    Route::post('/link/add', [LinkController::class, 'addLink'])->name('add-link');
+
+Route::delete('/link/delete/{link}', [LinkController::class, 'deleteLink'])->name('delete-link');
 
     Route::get('/customers', [AdminController::class, 'AllUsers'])->name('all-users');
     Route::delete('/delete-user/{user}', [AdminController::class, 'deleteUser'])->name('delete-user');

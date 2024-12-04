@@ -98,7 +98,6 @@
 - **Backend**: Laravel 11
 - **Frontend**: Livewire 3, TailwindCSS
 - **Database**: MySQL
-- **Real-Time Communication**: Laravel Echo + Pusher
 - **File Handling**: Spatie Media Library
 
 ---

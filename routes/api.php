@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PurchaseController;
 use App\Http\Controllers\Api\VerifyController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FolderController;
+use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OptionController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{folder}/messages/{message}', [FolderController::class, 'removeMessage']);
     });
 });
+
+Route::get('/links', [LinkController::class, 'apiLinks'])->name('api.links');
 
 Route::post('/email/resend-verification', [VerifyController::class, 'resendVerify'])->name('api.verify.resend');
 

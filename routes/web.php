@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PlanController;
 use App\Http\Controllers\VerifyController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Laravel\Cashier\Http\Controllers\WebhookController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -14,6 +13,16 @@ Route::get('/', function () {
     }
     return redirect()->route('login');
 })->name('home');
+
+Route::get('/migrate', function () {
+    Artisan::call('migrate');
+    return 'Migration done';
+});
+
+Route::get('/optimize', function () {
+    Artisan::call('optimize:clear');
+    return 'Cache cleared';
+});
 
 Route::get('email/verify/view/{id}/{hash}', [VerifyController::class, 'viewEmail'])->name('email.verification.view');
 Route::get('password/reset/view/{email}/{token}', [VerifyController::class, 'viewInBrowser'])->name('password.reset.view');
