@@ -37,6 +37,23 @@
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
+                            @if ($user->isBanned())
+                                <form action="{{ route('unban-user', $user->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-32-px me-4 h-32-px bg-warning-focus text-warning-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                                        <iconify-icon icon="charm:tick"></iconify-icon>
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{ route('ban-user', $user->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-32-px me-4 h-32-px bg-info-focus text-info-main rounded-circle d-inline-flex align-items-center justify-content-center">
+                                        <iconify-icon icon="mynaui:ban"></iconify-icon>
+                                    </button>
+                                </form>
+                            @endif
                             <a href="{{ route('edit-admin', $user->id) }}"
                                 class="w-32-px me-4 h-32-px bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center">
                                 <iconify-icon icon="lucide:edit"></iconify-icon>

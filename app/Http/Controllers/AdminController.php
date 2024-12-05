@@ -46,9 +46,42 @@ class AdminController extends Controller
         ]);
     }
 
+    public function ban(User $user)
+    {
+        if ($user->isBanned()) {
+            return redirect()->route('all-users')->with([
+                'status' => 'warning',
+                'message' => 'User is already banned.',
+            ]);
+        }
+
+        $user->update(['banned_at' => now()]);
+
+        return redirect()->route('all-users')->with([
+            'status' => 'success',
+            'message' => 'User has been banned successfully.',
+        ]);
+    }
+
+    public function unban(User $user)
+    {
+        if (!$user->isBanned()) {
+            return redirect()->route('all-users')->with([
+                'status' => 'warning',
+                'message' => 'User is not banned.',
+            ]);
+        }
+
+        $user->update(['banned_at' => null]);
+
+        return redirect()->route('all-users')->with([
+            'status' => 'success',
+            'message' => 'User has been unbanned successfully.',
+        ]);
+    }
+
     public function AllUsers()
     {
         return view('admin.all-users');
     }
-
 }

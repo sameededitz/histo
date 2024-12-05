@@ -31,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'role',
+        'banned_at',
         'email_verified_at',
     ];
 
@@ -77,6 +78,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomResetPassword($token));
+    }
+
+    public function isBanned(): bool
+    {
+        return !is_null($this->banned_at);
     }
 
     public function chat(): HasOne

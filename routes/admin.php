@@ -12,9 +12,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'verifyR
 
     Route::post('/link/add', [LinkController::class, 'addLink'])->name('add-link');
 
-Route::delete('/link/delete/{link}', [LinkController::class, 'deleteLink'])->name('delete-link');
+    Route::delete('/link/delete/{link}', [LinkController::class, 'deleteLink'])->name('delete-link');
 
     Route::get('/customers', [AdminController::class, 'AllUsers'])->name('all-users');
+
+    Route::post('/user/ban/{user}', [AdminController::class, 'ban'])->name('ban-user');
+
+    Route::post('/user/unban/{user}', [AdminController::class, 'unban'])->name('unban-user');
+
     Route::delete('/delete-user/{user}', [AdminController::class, 'deleteUser'])->name('delete-user');
 
     Route::get('/options', [OptionController::class, 'Options'])->name('all-options');
