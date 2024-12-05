@@ -39,7 +39,7 @@
                                 class="badge text-sm fw-semibold text-danger-600 bg-danger-100 px-20 py-9 radius-4 text-white">Banned</span>
                         @else
                             <span
-                                class="badge text-sm fw-semibold text-success-600 bg-success-100 px-20 py-9 radius-4 text-white">Actives</span>
+                                class="badge text-sm fw-semibold text-success-600 bg-success-100 px-20 py-9 radius-4 text-white">Active</span>
                         @endif
                     </td>
                     <td>
