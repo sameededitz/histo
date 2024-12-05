@@ -8,7 +8,7 @@
                 <th scope="col">Status</th>
                 <th scope="col">Premium</th>
                 <th scope="col">Last Login</th>
-                <th scope="col">Time</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
@@ -33,7 +33,14 @@
                         @endif
                     </td>
                     <td>{{ $user->last_login ? $user->last_login->diffForHumans() : 'Never' }}</td>
-                    <td>C: {{ $user->created_at->diffForHumans() }}<br>U: {{ $user->updated_at->diffForHumans() }}
+                    <td>
+                        @if ($user->isBanned())
+                            <span
+                                class="badge text-sm fw-semibold text-danger-600 bg-danger-100 px-20 py-9 radius-4 text-white">Banned</span>
+                        @else
+                            <span
+                                class="badge text-sm fw-semibold text-success-600 bg-success-100 px-20 py-9 radius-4 text-white">Actives</span>
+                        @endif
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
