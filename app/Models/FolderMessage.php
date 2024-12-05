@@ -4,8 +4,41 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class FolderMessage extends Model
+class FolderMessage extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
+
+    protected $fillable = [
+        'folder_id',
+        'question',
+        'answer',
+    ];
+
+    protected $appends = ['image_url'];
+
+    public function folder()
+    {
+        return $this->belongsTo(Folder::class);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')
+            ->useDisk('media')
+            ->singleFile()
+            ->acceptsMimeTypes([
+                'image/jpeg',
+                'image/png',
+                'image/jpg',
+            ]);
+    }
+
+    public function getImageUrlAttribute()
+    {
+        $media = $this->getFirstMedia('image');
+        return $media ? $media->getUrl() : null;
+    }
 }

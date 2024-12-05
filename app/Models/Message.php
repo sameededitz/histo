@@ -21,10 +21,10 @@ class Message extends Model implements HasMedia
         return $this->belongsTo(Chat::class);
     }
 
-    public function folders(): BelongsToMany
-    {
-        return $this->belongsToMany(Folder::class, 'folder_messages');
-    }
+    // public function folders(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(Folder::class, 'folder_messages');
+    // }
 
     public function registerMediaCollections(): void
     {

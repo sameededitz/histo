@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Folder;
+use App\Models\FolderMessage;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,7 +76,7 @@ class FolderController extends Controller
 
     public function delete(Folder $folder)
     {
-        $folder->delete();
+        $folder->forceDelete();
 
         return response()->json([
             'success' => true,
@@ -86,7 +87,9 @@ class FolderController extends Controller
     public function addMessage(Request $request, Folder $folder)
     {
         $validator = Validator::make($request->all(), [
-            'message_id' => 'required|exists:messages,id',
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -96,18 +99,36 @@ class FolderController extends Controller
             ], 400);
         }
 
-        $message = Message::findOrFail($request->message_id);
-        $folder->messages()->syncWithoutDetaching([$message->id]);
+        $folderMessage = $folder->messages()->create([
+            'question' => $request->question,
+            'answer' => $request->answer,
+        ]);
+
+        if ($request->hasFile('image')) {
+            $folderMessage->addMedia($request->file('image'))->toMediaCollection('image');
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Message added to folder successfully.',
+            'folder_message' => $folderMessage->load('folder'),
         ]);
     }
 
-    public function removeMessage(Folder $folder, Message $message)
+    public function removeMessage(Folder $folder, FolderMessage $folderMessage)
     {
-        $folder->messages()->detach($message->id);
+        if ($folderMessage->folder_id !== $folder->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The message does not belong to this folder.',
+            ], 403);
+        }
+    
+        // Remove associated image
+        $folderMessage->clearMediaCollection('image');
+    
+        // Delete the message
+        $folderMessage->delete();
 
         return response()->json([
             'success' => true,

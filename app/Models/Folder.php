@@ -13,6 +13,19 @@ class Folder extends Model
 
     protected $fillable = ['user_id', 'name'];
 
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($folder) {
+            $folder->messages->each(function ($message) {
+                $message->clearMediaCollection('image');
+                $message->delete();
+            });
+        });
+    }
+
     /**
      * Relationship with User
      */
@@ -24,8 +37,8 @@ class Folder extends Model
     /**
      * Relationship with Messages
      */
-    public function messages(): BelongsToMany
+    public function messages()
     {
-        return $this->belongsToMany(Message::class, 'folder_messages');
+        return $this->hasMany(FolderMessage::class);
     }
 }

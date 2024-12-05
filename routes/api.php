@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{folder}', [FolderController::class, 'update']);
         Route::delete('/{folder}', [FolderController::class, 'delete']);
         Route::post('/{folder}/messages', [FolderController::class, 'addMessage']);
-        Route::delete('/{folder}/messages/{message}', [FolderController::class, 'removeMessage']);
+        Route::delete('/{folder}/messages/{folderMessage}', [FolderController::class, 'removeMessage']);
     });
 });
 

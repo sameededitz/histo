@@ -15,6 +15,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/migrate', function () {
+    Artisan::call('migrate:rollback --step=2');
     Artisan::call('migrate');
     return 'Migration done';
 });
