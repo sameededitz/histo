@@ -17,7 +17,7 @@ class FolderController extends Controller
         $user = Auth::user();
 
         $folders = $user->folders()
-            ->with(['messages'])
+            ->with(['messages.sender', 'messages.response'])
             ->get();
 
         return response()->json([
@@ -87,9 +87,8 @@ class FolderController extends Controller
     public function addMessage(Request $request, Folder $folder)
     {
         $validator = Validator::make($request->all(), [
-            'question' => 'required|string|max:255',
-            'answer' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'sender_id' => 'required|exists:messages,id',
+            'response_id' => 'nullable|exists:messages,id',
         ]);
 
         if ($validator->fails()) {
@@ -100,18 +99,13 @@ class FolderController extends Controller
         }
 
         $folderMessage = $folder->messages()->create([
-            'question' => $request->question,
-            'answer' => $request->answer,
+            'sender_id' => $request->sender_id,
+            'response_id' => $request->response_id,
         ]);
-
-        if ($request->hasFile('image')) {
-            $folderMessage->addMedia($request->file('image'))->toMediaCollection('image');
-        }
 
         return response()->json([
             'success' => true,
-            'message' => 'Message added to folder successfully.',
-            'folder_message' => $folderMessage->load('folder'),
+            'message' => 'Message added to folder successfully.'
         ]);
     }
 
@@ -123,10 +117,7 @@ class FolderController extends Controller
                 'message' => 'The message does not belong to this folder.',
             ], 403);
         }
-    
-        // Remove associated image
-        $folderMessage->clearMediaCollection('image');
-    
+
         // Delete the message
         $folderMessage->delete();
 

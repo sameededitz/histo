@@ -401,23 +401,13 @@
                             <p>Add a message to a folder.</p>
                             <h6>Request Body:</h6>
                             <pre><code>{
-                                'question' => 'required|string|max:255',
-                                'answer' => 'required|string|max:255',
-                                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                                'sender_id' => 'required|exists:messages,id',
+            'response_id' => 'nullable|exists:messages,id',
             }</code></pre>
                             <h6>Response:</h6>
                             <pre><code>{
                                 "success": true,
-                                "message": "Message added to folder successfully.",
-                                "folder_message": {
-                                    "id": 1,
-                                    "folder_id": 1,
-                                    "question": "What is Laravel?",
-                                    "answer": "A PHP framework.",
-                                    "image_url": "https://example.com/storage/media/folder-message-image.jpg",
-                                    "created_at": "2024-12-02T00:00:00.000000Z",
-                                    "updated_at": "2024-12-02T00:00:00.000000Z"
-                                }
+                                "message": "Message added to folder successfully."
                             }
                             </code></pre>
                         </div>
