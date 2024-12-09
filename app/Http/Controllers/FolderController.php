@@ -17,7 +17,7 @@ class FolderController extends Controller
         $user = Auth::user();
 
         $folders = $user->folders()
-            ->with(['messages.sender', 'messages.response'])
+            ->with(['messages'])
             ->get();
 
         return response()->json([
