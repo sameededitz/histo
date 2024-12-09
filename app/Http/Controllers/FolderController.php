@@ -87,8 +87,8 @@ class FolderController extends Controller
     public function addMessage(Request $request, Folder $folder)
     {
         $validator = Validator::make($request->all(), [
-            'sender_id' => 'required|exists:messages,id',
-            'response_id' => 'nullable|exists:messages,id',
+            'question' => 'required|string',
+            'answer' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -99,8 +99,8 @@ class FolderController extends Controller
         }
 
         $folderMessage = $folder->messages()->create([
-            'sender_id' => $request->sender_id,
-            'response_id' => $request->response_id,
+            'question' => $request->question,
+            'answer' => $request->answer
         ]);
 
         return response()->json([

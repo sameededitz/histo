@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('folder_messages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('folder_id')->constrained()->onDelete('cascade');
-            $table->foreignId('sender_id')->constrained('messages')->onDelete('cascade'); // Sender message
-            $table->foreignId('response_id')->nullable()->constrained('messages')->onDelete('cascade'); // Response message
+            $table->string('question');
+            $table->string('answer');
             $table->timestamps();
         });
     }

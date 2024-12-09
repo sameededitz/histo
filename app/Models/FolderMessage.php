@@ -11,25 +11,9 @@ class FolderMessage extends Model
 
     protected $fillable = [
         'folder_id',
-        'sender_id',
-        'response_id',
+        'question',
+        'answer',
     ];
-
-    /**
-     * Sender message relationship.
-     */
-    public function sender()
-    {
-        return $this->belongsTo(Message::class, 'sender_id');
-    }
-
-    /**
-     * Response message relationship.
-     */
-    public function response()
-    {
-        return $this->belongsTo(Message::class, 'response_id');
-    }
 
     /**
      * Folder relationship.
